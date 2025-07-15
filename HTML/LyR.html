@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Registro - Casa L&H</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/CSS/LyR.css" />
+  <style>
+    /* Logo estilo pro */
+    .logo-img {
+      max-height: 100px;
+      object-fit: contain;
+      filter: drop-shadow(2px 2px 4px #000000aa);
+      transition: transform 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Animación de luz en el borde */
+    @keyframes luzBorde {
+      0%, 100% {
+        box-shadow: 0 0 10px #ffffff20, 0 0 20px #ffffff10;
+      }
+      50% {
+        box-shadow: 0 0 15px #ffffff60, 0 0 30px #ffffff40;
+      }
+    }
+
+    .animacion-borde {
+      animation: luzBorde 2.5s infinite ease-in-out;
+    }
+
+    /* Animaciones del modal */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .animate-scaleIn {
+      animation: scaleIn 0.3s ease-out;
+    }
+
+    /* Scroll personalizado */
+    .custom-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #2a2a2a;
+      border-radius: 10px;
+    }
+
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #f59e0b;
+      border-radius: 10px;
+      border: 2px solid #2a2a2a;
+    }
+  </style>
+</head>
+<body class="bg-neutral-950 text-white font-urbanist min-h-screen flex items-center justify-center px-4">
+
+  <!-- CONTENEDOR -->
+  <div class="w-full max-w-md bg-neutral-900 p-8 rounded-xl shadow-xl animacion-borde">
+    <div class="text-center mb-6">
+      <a href="index.html">
+        <img src="/Img/Img.de.la.pagina/Logofinal2.0.png" alt="Casa L&H" class="logo-img mx-auto" />
+      </a>
+      <h2 class="text-2xl font-bold mt-4" id="form-title">Iniciar Sesión</h2>
+    </div>
+
+    <form id="auth-form" class="space-y-4" novalidate>
+      <div>
+        <label class="block text-sm font-semibold mb-1">Email</label>
+        <input type="email" id="email" required class="w-full p-3 rounded bg-neutral-800 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-amber-400" />
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold mb-1">Contraseña</label>
+        <div class="relative">
+          <input type="password" id="password" required class="w-full p-3 pr-10 rounded bg-neutral-800 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-amber-400" />
+          <button type="button" id="toggle-password" class="absolute right-3 top-3 text-gray-400 hover:text-amber-400" aria-label="Mostrar/Ocultar contraseña">
+            👁️
+          </button>
+        </div>
+      </div>
+
+      <div id="name-field" class="hidden">
+        <label class="block text-sm font-semibold mb-1">Nombre de usuario</label>
+        <input type="text" id="username" class="w-full p-3 rounded bg-neutral-800 border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-amber-400" />
+      </div>
+
+      <!-- Casilla Términos y Condiciones -->
+      <div id="terms-container" class="hidden text-sm text-gray-300">
+        <label class="inline-flex items-center gap-2">
+          <input type="checkbox" id="terms-checkbox" class="accent-amber-500" disabled />
+          Acepto los <button type="button" id="abrir-modal" class="text-amber-400 underline hover:text-amber-300">términos y condiciones</button>
+        </label>
+        <p id="terms-error" class="text-red-500 text-xs mt-1 hidden">Debes aceptar los términos para registrarte.</p>
+      </div>
+
+      <button type="submit" class="w-full bg-amber-500 text-black py-3 rounded hover:bg-amber-400 transition" id="submit-btn">Entrar</button>
+    </form>
+
+    <p class="text-sm mt-4 text-center text-gray-400">
+      <span id="toggle-text">¿No tenés cuenta?</span>
+      <button id="toggle-form" class="text-amber-400 hover:underline">Registrate</button>
+    </p>
+  </div>
+
+  <!-- MODAL DE TÉRMINOS -->
+  <div id="modal-terminos" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 hidden animate-fadeIn">
+    <div class="bg-neutral-900 border border-amber-500 rounded-2xl shadow-2xl max-w-xl w-full p-6 relative max-h-[85vh] overflow-hidden animate-scaleIn">
+      <div class="flex items-center gap-3 mb-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h2 class="text-xl font-semibold text-white">Términos y Condiciones</h2>
+      </div>
+
+      <div id="texto-terminos" class="overflow-y-auto h-64 pr-2 text-sm text-gray-300 border border-gray-700 rounded-lg p-4 custom-scroll">
+        <p><strong>1. Información general:</strong> Esta tienda de ropa opera bajo el nombre "Casa L&H", ofreciendo productos textiles de calidad.</p>
+        <p><strong>2. Compras:</strong> Las compras se realizan de forma segura mediante los métodos habilitados en el sitio. Nos reservamos el derecho de cancelar pedidos en caso de problemas de stock o validación de pago.</p>
+        <p><strong>3. Envíos:</strong> Los tiempos de entrega varían según la ubicación y el tipo de envío seleccionado.</p>
+        <p><strong>4. Devoluciones:</strong> Se aceptan devoluciones dentro de los 10 días posteriores a la entrega, siempre que la prenda no haya sido usada ni dañada.</p>
+        <p><strong>5. Protección de datos:</strong> La información personal del cliente será tratada con confidencialidad y no será compartida con terceros sin consentimiento previo.</p>
+        <p><strong>6. Cambios en los términos:</strong> Nos reservamos el derecho de modificar estos términos sin previo aviso. Recomendamos revisarlos periódicamente.</p>
+        <p><strong>7. Contacto:</strong> Ante cualquier duda, escribinos a <a href="mailto:contacto@casalyh.com.ar" class="text-amber-400 underline">contacto@casalyh.com.ar</a>.</p>
+        <p class="mt-4 text-amber-400"><em>Desplazá hasta el final para poder aceptar.</em></p>
+      </div>
+
+      <div class="mt-6 text-right">
+        <button id="cerrar-modal" class="bg-amber-500 text-black px-4 py-2 rounded hover:bg-amber-400 transition">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggleFormBtn = document.getElementById('toggle-form');
+      const formTitle = document.getElementById('form-title');
+      const toggleText = document.getElementById('toggle-text');
+      const nameField = document.getElementById('name-field');
+      const termsContainer = document.getElementById('terms-container');
+      const termsCheckbox = document.getElementById('terms-checkbox');
+      const termsError = document.getElementById('terms-error');
+      const authForm = document.getElementById('auth-form');
+      const submitBtn = document.getElementById('submit-btn');
+      const passwordInput = document.getElementById('password');
+      const togglePasswordBtn = document.getElementById('toggle-password');
+      const abrirModal = document.getElementById('abrir-modal');
+      const cerrarModal = document.getElementById('cerrar-modal');
+      const modalTerminos = document.getElementById('modal-terminos');
+      const textoTerminos = document.getElementById('texto-terminos');
+
+      let isLogin = true;
+
+      toggleFormBtn.addEventListener('click', () => {
+        isLogin = !isLogin;
+        formTitle.textContent = isLogin ? 'Iniciar Sesión' : 'Registro';
+        submitBtn.textContent = isLogin ? 'Entrar' : 'Registrarse';
+        toggleText.textContent = isLogin ? '¿No tenés cuenta?' : '¿Ya tenés cuenta?';
+        toggleFormBtn.textContent = isLogin ? 'Registrate' : 'Iniciar Sesión';
+        nameField.classList.toggle('hidden', isLogin);
+        termsContainer.classList.toggle('hidden', isLogin);
+        termsError.classList.add('hidden');
+        termsCheckbox.checked = false;
+        termsCheckbox.disabled = true;
+      });
+
+      togglePasswordBtn.addEventListener('click', () => {
+        const visible = passwordInput.type === 'text';
+        passwordInput.type = visible ? 'password' : 'text';
+        togglePasswordBtn.textContent = visible ? '👁️' : '🙈';
+      });
+
+      abrirModal.addEventListener('click', () => {
+        modalTerminos.classList.remove('hidden');
+        termsCheckbox.disabled = true;
+      });
+
+      cerrarModal.addEventListener('click', () => {
+        modalTerminos.classList.add('hidden');
+      });
+
+      textoTerminos.addEventListener('scroll', () => {
+        const { scrollTop, scrollHeight, clientHeight } = textoTerminos;
+        if (scrollTop + clientHeight >= scrollHeight - 10) {
+          termsCheckbox.disabled = false;
+        }
+      });
+
+      authForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!isLogin && !termsCheckbox.checked) {
+          termsError.classList.remove('hidden');
+          return;
+        }
+        termsError.classList.add('hidden');
+        alert(isLogin ? 'Iniciando sesión...' : 'Registrando usuario...');
+        authForm.reset();
+        if (!isLogin) toggleFormBtn.click();
+      });
+    });
+  </script>
+</body>
+</html>
